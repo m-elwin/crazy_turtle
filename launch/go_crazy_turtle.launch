@@ -1,4 +1,5 @@
 <launch>
    <node name="roaming_turtle" pkg="turtlesim" type="turtlesim_node" />
-   <node name="mover" pkg="crazy_turtle" type="mover.py" ns="mover"/>
+   <node name="mover" pkg="crazy_turtle" type="mover.py" ns="turtle1"/>
+
 </launch>

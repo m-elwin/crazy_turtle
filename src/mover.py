@@ -3,6 +3,7 @@
 
 import rospy
 from geometry_msgs.msg import Twist
+from random import uniform
 
 def turtle_twist(xdot, omega):
     """ Create a twist suitable for a turtle
@@ -20,7 +21,7 @@ def turtle_twist(xdot, omega):
     twist.linear.z = 0
     twist.angular.x = 0
     twist.angular.y = 0
-    twist.angular.z = 0
+    twist.angular.z = omega
     return twist
 
 class Mover(object):
@@ -30,14 +31,14 @@ class Mover(object):
       self.pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
       self.tmr = rospy.Timer(rospy.Duration(0.01), self.timer_callback)
       self.nsteps = 0
-      self.direction = 1
+      self.direction = 5
 
     def timer_callback(self, event):
         """ Handle the timer callback.  event is the TimerEvent """
-        twist = turtle_twist(self.direction, 0)
+        twist = turtle_twist(self.direction, uniform(-10, 10))
 
         self.nsteps += 1
-        if self.nsteps > 20:
+        if self.nsteps > 200:
             self.nsteps = 0
             self.direction *= -1
         self.pub.publish(twist)
