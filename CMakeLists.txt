@@ -5,11 +5,9 @@ project(crazy_turtle)
 # add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS geometry_msgs)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  turtlesim
-)
+find_package(catkin REQUIRED COMPONENTS geometry_msgs)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -103,7 +101,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES crazy_turtle
-#  CATKIN_DEPENDS turtlesim
+   CATKIN_DEPENDS geometry_msgs
 #  DEPENDS system_lib
 )
 
