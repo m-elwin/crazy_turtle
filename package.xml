@@ -2,7 +2,7 @@
 <package format="2">
   <name>crazy_turtle</name>
   <version>0.0.0</version>
-  <description>The crazy_turtle package drives the turtlesim crazy!</description>
+  <description>Drives the turtlesim crazy!</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -51,8 +51,9 @@
   <buildtool_depend>catkin</buildtool_depend>
   <exec_depend>turtlesim</exec_depend>
   <exec_depend>rospy</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
   <depend>geometry_msgs</depend>
-
+  <build_depend>message_generation</build_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
