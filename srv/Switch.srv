@@ -1,2 +1,4 @@
-geometry_msgs/Twist
+turtlesim/Pose mixed_up # use a strange formula to set the new location of the turtle
 ---
+float64 x # the new x position of the new turtle
+float64 y # the new y position of the new 

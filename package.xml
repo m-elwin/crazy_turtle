@@ -49,10 +49,9 @@
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <exec_depend>turtlesim</exec_depend>
+  <depend>turtlesim</depend> <!-- this is a full depend (not just exec_depend) because we use messages from turtlesim in our own custom .srv -->
   <exec_depend>rospy</exec_depend>
   <exec_depend>message_runtime</exec_depend>
-  <depend>geometry_msgs</depend>
   <build_depend>message_generation</build_depend>
 
   <!-- The export tag contains other, unspecified, tags -->

@@ -7,7 +7,7 @@ project(crazy_turtle)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS geometry_msgs)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS geometry_msgs message_generation)
+find_package(catkin REQUIRED COMPONENTS message_generation turtlesim )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -65,7 +65,7 @@ add_service_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
    DEPENDENCIES
-   geometry_msgs
+   turtlesim
 )
 
 ################################################
@@ -100,7 +100,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES crazy_turtle
-   CATKIN_DEPENDS geometry_msgs message_runtime 
+   CATKIN_DEPENDS message_runtime turtlesim 
 #   DEPENDS 
 )
 
