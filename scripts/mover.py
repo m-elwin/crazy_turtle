@@ -12,7 +12,7 @@ SERVICES:
 """
 
 import rospy
-from geometry_msgs.msg import Twist, Pose2D
+from geometry_msgs.msg import Twist, Vector3
 from random import uniform
 from crazy_turtle.srv import Switch, SwitchResponse
 from turtlesim.srv import Spawn, SpawnRequest
@@ -28,14 +28,8 @@ def turtle_twist(xdot, omega):
         Returns:
            Twist - a 2D twist object corresponding to linear/angular velocity
     """
-    twist = Twist()
-    twist.linear.x = xdot
-    twist.linear.y = 0
-    twist.linear.z = 0
-    twist.angular.x = 0
-    twist.angular.y = 0
-    twist.angular.z = omega
-    return twist
+    return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
+                  angular = Vector3(x = 0, y = 0, z = omega))
 
 class Mover(object):
     """ Publishes movement geometry_msgs/Twist commands at a fixed rate 
@@ -87,6 +81,7 @@ class Mover(object):
         self.pub.publish(twist)
 
 def main():
+    """ The main() function. """
     rospy.init_node('mover')
     mymove = Mover()
     rospy.spin()
