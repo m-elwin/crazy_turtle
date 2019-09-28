@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """ 
 Publishes twist that will move a robot back and forth in the x direction 
+while randomly providing an angular velocity about the z-axis.
 
 PUBLISHERS:
   + cmd_vel (geometry_msgs/Twist) ~ the velocity of an erratic turtle path
