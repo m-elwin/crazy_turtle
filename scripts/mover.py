@@ -37,7 +37,7 @@ def turtle_twist(xdot, omega):
     return twist
 
 class Mover(object):
-    """ Puplishes movement geometry_msgs/Twist commands at a fixed rate 
+    """ Publishes movement geometry_msgs/Twist commands at a fixed rate 
     """
     def __init__(self):
         self.nsteps = 0
@@ -51,6 +51,18 @@ class Mover(object):
 
 
     def switch_callback(self, pose):
+        """ Callback function for the switch service
+        
+        Kills turtle1 and respawns it an a new location
+
+         Args:
+          pose (SwitchRequest): the mixed_up field contains
+             x, y, linear and angular velocity components
+             that are used to determine the new turtle location
+
+        Returns:
+           A SwitchResponse, containing the new x and y position
+        """
         self.kill("turtle1")
         # The new position of the turtle is intentionally scrambled from a weird message
         newx = pose.mixed_up.x * pose.mixed_up.angular_velocity
@@ -59,13 +71,18 @@ class Mover(object):
         return SwitchResponse(x = newx, y = newy)
 
     def timer_callback(self, event):
-        """ Handle the timer callback.  event is the TimerEvent """
+        """ Handle the timer callback.
+
+        Args:
+          event (TimerEvent): This timer doesn't use any of the event info.
+        """
         twist = turtle_twist(self.direction * self.velocity, uniform(-10, 10))
 
         self.nsteps += 1
         if self.nsteps > 200:
             self.nsteps = 0
             self.direction *= -1
+
         self.pub.publish(twist)
 
 def main():
