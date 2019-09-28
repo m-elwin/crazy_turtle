@@ -66,7 +66,7 @@ class Mover(object):
         if self.nsteps > 200:
             self.nsteps = 0
             self.direction *= -1
-            self.pub.publish(twist)
+        self.pub.publish(twist)
 
 def main():
     rospy.init_node('mover')
