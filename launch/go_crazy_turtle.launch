@@ -1,6 +1,7 @@
 <launch>
    <node name="roaming_turtle" pkg="turtlesim" type="turtlesim_node" />
-   <node name="mover" pkg="crazy_turtle" type="mover.py" output="screen">
+   <node name="mover" pkg="crazy_turtle" type="mover.py">
+        <param name="velocity" value="5" />
 	<remap from="cmd_vel" to="turtle1/cmd_vel" />
    </node>
 </launch>

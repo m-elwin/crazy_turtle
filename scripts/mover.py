@@ -41,7 +41,8 @@ class Mover(object):
     """
     def __init__(self):
         self.nsteps = 0
-        self.direction = 5
+        self.direction = 1
+        self.velocity = rospy.get_param("~velocity")
         self.pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
         self.switch = rospy.Service("switch", Switch, self.switch_callback)
         self.kill = rospy.ServiceProxy("kill", Kill)
@@ -59,7 +60,7 @@ class Mover(object):
 
     def timer_callback(self, event):
         """ Handle the timer callback.  event is the TimerEvent """
-        twist = turtle_twist(self.direction, uniform(-10, 10))
+        twist = turtle_twist(self.direction * self.velocity, uniform(-10, 10))
 
         self.nsteps += 1
         if self.nsteps > 200:
