@@ -51,8 +51,11 @@ class Mover(object):
 
     def switch_callback(self, pose):
         self.kill("turtle1")
-        self.spawn(x = 1, y = 1, theta = 1, name = "turtle1")
-        return SwitchResponse()
+        # The new position of the turtle is intentionally scrambled from a weird message
+        newx = pose.mixed_up.x * pose.mixed_up.angular_velocity
+        newy = pose.mixed_up.y * pose.mixed_up.linear_velocity
+        self.spawn(x = newx, y = newy, theta = pose.mixed_up.theta, name = "turtle1")
+        return SwitchResponse(x = newx, y = newy)
 
     def timer_callback(self, event):
         """ Handle the timer callback.  event is the TimerEvent """
