@@ -71,7 +71,7 @@ class Mover(object):
         Args:
           event (TimerEvent): This timer doesn't use any of the event info.
         """
-        twist = turtle_twist(self.direction * self.velocity, uniform(-10, 10))
+        twist = turtle_twist(self.direction * self.velocity, uniform(-20, 20))
 
         self.nsteps += 1
         if self.nsteps > 200:
