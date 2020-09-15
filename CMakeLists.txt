@@ -1,13 +1,16 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(crazy_turtle)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS geometry_msgs)
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS message_generation turtlesim )
+find_package(catkin REQUIRED
+message_generation
+turtlesim
+)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -50,7 +53,7 @@ find_package(catkin REQUIRED COMPONENTS message_generation turtlesim )
 # )
 
 ## Generate services in the 'srv' folder
-add_service_files(
+ add_service_files(
    FILES
    Switch.srv
 )
@@ -63,7 +66,7 @@ add_service_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
+ generate_messages(
    DEPENDENCIES
    turtlesim
 )
@@ -99,9 +102,9 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES crazy_turtle
-   CATKIN_DEPENDS message_runtime turtlesim 
-#   DEPENDS 
+#  LIBRARIES test1
+  CATKIN_DEPENDS turtlesim
+#  DEPENDS system_lib
 )
 
 ###########
@@ -112,12 +115,12 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
 # include
-  ${catkin_INCLUDE_DIRS}
+# ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/crazy_turtle.cpp
+#   src/${PROJECT_NAME}/test1.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -128,7 +131,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/crazy_turtle_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/test1_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -154,8 +157,8 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-install(PROGRAMS
-   scripts/mover
+catkin_install_python(PROGRAMS
+   nodes/mover
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -192,7 +195,7 @@ install(PROGRAMS
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_crazy_turtle.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_test1.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
