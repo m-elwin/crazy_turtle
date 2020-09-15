@@ -1,13 +1,14 @@
 #!/usr/bin/env python
+# Copy this file into your homework repository and fill in the <> blanks in the document strings
 """ 
-Publishes twist that will move a robot back and forth in the x direction 
-while randomly providing an angular velocity about the z-axis.
+Publishes twist that will move a robot back and forth in the <?> direction 
+while randomly providing a <linear|angular> velocity about the <?>-axis.
 
 PUBLISHERS:
-  + cmd_vel (geometry_msgs/Twist) ~ the velocity of an erratic turtle path
+  + <name> (<type>) ~ the velocity of an erratic turtle path
 
 SERVICES:
-  + switch (geometry_msgs/Pose) ~ position of the new turtle
+  + <name> (<type>) ~ position of the new turtle
 
 """
 
@@ -31,7 +32,7 @@ def turtle_twist(xdot, omega):
     return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
                   angular = Vector3(x = 0, y = 0, z = omega))
 
-class Mover(object):
+class Mover:
     """ Publishes movement geometry_msgs/Twist commands at a fixed rate 
     """
     def __init__(self):
@@ -46,7 +47,7 @@ class Mover(object):
 
 
     def switch_callback(self, pose):
-        """ Callback function for the switch service
+        """ Callback function for the <?> service
         
         Kills turtle1 and respawns it an a new location
 
