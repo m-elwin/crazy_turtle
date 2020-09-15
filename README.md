@@ -56,11 +56,10 @@ Unless otherwise specified, list the command and all arguments that you passed t
     <list service types here>
     ```
 ## Live Interaction
-13. Use the ROS command `<command and args>` to call the =/switch= service.
+13. Use the ROS command `<command and args>` to call the `/switch` service.
     The command returns `<return value>` and the turtle <brief description of what the turtle does>.
     (Hint: use `rossrv info` on the type of the `/switch` service to see the parameters.
-     To test the behavior, look at the code or try calling once with `linear_velocity = 0` and `angular_velocity = 0`
-     and once with these at different nonzero values.)
+     To test the behavior, look at the code or try calling with `x = 1`, `y = 1`, once with `linear_velocity = 0` and `angular_velocity = 0` and once with these at different nonzero values.)
 14. What is the value of the `/mover/velocity` parameter? <value here>
 15. What happens to the turtle if you change `/mover/velocity` to 10? <it's a one word answer!>
 16. Use the ROS command `<command and args>` to kill the `/mover` node.
