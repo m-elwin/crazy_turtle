@@ -9,7 +9,7 @@ Unless otherwise specified, list the command and all arguments that you passed t
 1. Compile the workspace by executing `<insert command here>`
 2. Initialize the ROS environment by exectuing `<insert command here>`
 3. Run the launchfile `<location of launch file>` by executing `<insert command here>`
-4. When running you can view the ROS graph using the `<command>` command.
+4. When running you can see a visual depiction of the ROS graph using the `<command>` command.
    The ROS graph, including all topics and node labels, looks like:
    ![<The ROS Graph>](<path_to_image_here_include_image_in_your_repository>)
 
