@@ -74,7 +74,7 @@ master_doc = 'index'
 # General information about the project.
 project = catkin_package.name
 copyright = str(datetime.date.today().year) + " ".join([str(x) for x in catkin_package.authors])
-author = string.join([str(x) for x in catkin_package.authors])
+author = "".join([str(x) for x in catkin_package.authors])
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
