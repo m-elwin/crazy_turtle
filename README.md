@@ -14,6 +14,8 @@ Unless otherwise specified, list the command and all arguments that you passed t
    ![<The ROS Graph>](<path_to_image_here_include_image_in_your_repository>)
 
 ## Runtime Information
+The `launchfile` from above should be running when executing these commands.
+
 5. Use the ROS command `<command and args>` to list all the nodes that are running.
    The output of the command looks like
    ```
@@ -61,7 +63,7 @@ Unless otherwise specified, list the command and all arguments that you passed t
     (Hint: use `rossrv info` on the type of the `/switch` service to see the parameters.
      To test the behavior, look at the code or try calling with `x = 1`, `y = 1`, once with `linear_velocity = 0` and `angular_velocity = 0` and once with these at different nonzero values.)
 14. What is the value of the `/mover/velocity` parameter? <value here>
-15. What happens to the turtle if you change `/mover/velocity` to 10? <it's a one word answer!>
+15. What happens to the turtle's motion if you change `/mover/velocity` to 10 while the turtlesim and mover node are running? <faster | slower | same>
 16. Use the ROS command `<command and args>` to kill the `/mover` node.
 17. Use the ROS command `<command and args>` to start the `/mover` node. Be sure to
     remap `cmd_vel` to `/turtle1/cmd_vel`.
