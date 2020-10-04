@@ -2,7 +2,7 @@
 Demonstration package for ME495.
 This README is intentionally vague.
 Figuring out how this package works and filling in the details is part of the
-exercise. Fill in the blanks between `<angle brackets>` with your answer.
+exercise. Replace the the blanks marked with `<angle brackets>` with your answer.
 Unless otherwise specified, list the command and all arguments that you passed to it.
 
 ## Setup Instructions
