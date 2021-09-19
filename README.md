@@ -61,7 +61,7 @@ If the nodes launched from the `launchfile` are not running, you will get incorr
     ```
 ## Live Interaction
 13. Use the ROS command `${command and args}` to call the `/switch` service.
-    The command returns `${return value}` and the turtle ${brief description of what the turtle does}.
+    The command returns `${return value}` and the turtle `${brief description of what the turtle does}`.
     (Hint: use `rossrv info` on the type of the `/switch` service to see the parameters.
      To test the behavior, look at the code or try calling with `x = 1`, `y = 1`, once with `linear_velocity = 0` and `angular_velocity = 0` and once with these at different nonzero values.)
 14. What is the value of the `/mover/velocity` parameter? ${value here}
