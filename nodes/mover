@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-# Copy this file into your homework repository and fill in the <> blanks in the document strings
+# Copy this file into your homework repository and fill in the ${?} blanks in the document strings
 """ 
-Publishes twist that will move a robot back and forth in the <?> direction 
-while randomly providing a <linear|angular> velocity about the <?>-axis.
+Publishes twist that will move a robot back and forth in the ${?} direction 
+while randomly providing a <linear|angular> velocity about the ${?}-axis.
 
 PUBLISHERS:
-  + <name> (<type>) ~ the velocity of an erratic turtle path
+  + ${topic_name} (${message_type}) ~ the velocity of an erratic turtle path
 
 SERVICES:
-  + <name> (<type>) ~ position of the new turtle
+  + ${topic_name} (${service_type}) ~ position of the new turtle
 
 """
 
@@ -47,7 +47,7 @@ class Mover:
 
 
     def switch_callback(self, pose):
-        """ Callback function for the <?> service
+        """ Callback function for the ${?} service
         
         Kills turtle1 and respawns it an a new location
 
