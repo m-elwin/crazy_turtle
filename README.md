@@ -8,7 +8,7 @@ Unless otherwise specified, list the command and all arguments that you passed t
 ## Setup Instructions
 1. Compile the workspace by executing `${insert command here}`
 2. Initialize the ROS environment (i.e., set the necessary ROS environment variables) by executing `${insert command here}`
-3. Make sure no other ROS nodes are running prior to beginning. 
+3. Make sure no other ROS nodes are running prior to starting. 
 3. Run the launchfile `${location of launch file}` by executing `${insert command here}`
 4. When running you can see a visual depiction of the ROS graph using the `${command}` command.
    The ROS graph, including all topics and node labels, looks like:
@@ -49,16 +49,16 @@ If the nodes launched from the `launchfile` are not running, you will get incorr
     ```
 
 ## Package and Dependencies
-11. Use the ROS command `${command and args}` to list the immediate (direct) dependencies of `crazy_turtle`
-   The output of the command looks like
-   ```
-   ${list direct dependencies here}
-   ```
-12. Use the ROS command `${command and args}` to list the types of services defined by `crazy_turtle`
+11. Use the ROS command `${command and args}` to list the types of services defined by `crazy_turtle`
     The output of the command looks like
     ```
     ${list service types here}
     ```
+12. Use the ROS command `${command and args}` to list the immediate (direct) dependencies of `crazy_turtle`
+   The output of the command looks like
+   ```
+   ${list direct dependencies here}
+   ```
 ## Live Interaction
 13. Use the ROS command `${command and args}` to call the `/switch` service.
     The command returns `${return value}` and the turtle `${brief description of what the turtle does}`.
