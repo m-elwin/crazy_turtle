@@ -43,7 +43,7 @@ class Mover:
         self.switch = rospy.Service("switch", Switch, self.switch_callback)
         self.kill = rospy.ServiceProxy("kill", Kill)
         self.spawn = rospy.ServiceProxy("spawn", Spawn)
-        self.tmr = rospy.Timer(rospy.Duration(0.01), self.timer_callback)
+        self.tmr = rospy.Timer(rospy.Duration(0.008333), self.timer_callback)
 
 
     def switch_callback(self, pose):
@@ -52,7 +52,7 @@ class Mover:
         Kills turtle1 and respawns it an a new location
 
          Args:
-          pose (SwitchRequest): the mixed_up field contains
+          pose (SwitchRequest): the mixer field contains
              x, y, linear and angular velocity components
              that are used to determine the new turtle location
 
@@ -61,9 +61,9 @@ class Mover:
         """
         self.kill("turtle1")
         # The new position of the turtle is intentionally scrambled from a weird message
-        newx = pose.mixed_up.x * pose.mixed_up.angular_velocity
-        newy = pose.mixed_up.y * pose.mixed_up.linear_velocity
-        self.spawn(x = newx, y = newy, theta = pose.mixed_up.theta, name = "turtle1")
+        newx = pose.mixer.x * pose.mixed_up.angular_velocity
+        newy = pose.mixer.y * pose.mixed_up.linear_velocity
+        self.spawn(x = newx, y = newy, theta = pose.mixer.theta, name = "turtle1")
         return SwitchResponse(x = newx, y = newy)
 
     def timer_callback(self, event):

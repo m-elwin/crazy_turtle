@@ -1,7 +1,7 @@
 <launch>
    <node name="roving_turtle" pkg="turtlesim" type="turtlesim_node" />
    <node name="mover" pkg="crazy_turtle" type="mover">
-        <param name="velocity" value="5" />
+        <param name="velocity" value="4.5" />
 	<remap from="cmd_vel" to="turtle1/cmd_vel" />
    </node>
 </launch>
