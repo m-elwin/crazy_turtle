@@ -61,8 +61,8 @@ class Mover:
         """
         self.kill("turtle1")
         # The new position of the turtle is intentionally scrambled from a weird message
-        newx = pose.mixer.x * pose.mixed.angular_velocity
-        newy = pose.mixer.y * pose.mixed.linear_velocity
+        newx = pose.mixer.x * pose.mixer.angular_velocity
+        newy = pose.mixer.y * pose.mixer.linear_velocity
         self.spawn(x = newx, y = newy, theta = pose.mixer.theta, name = "turtle1")
         return SwitchResponse(x = newx, y = newy)
 
