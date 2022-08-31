@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 # Copy this file into your homework repository and fill in the ${?} blanks in the document strings
-""" 
-Publishes twist that will move a robot back and forth in the ${?} direction 
+"""
+Publishes twist that will move a robot back and forth in the ${?} direction
 while randomly providing a <linear|angular> velocity about the ${?}-axis.
 
 PUBLISHERS:
@@ -12,7 +11,9 @@ SERVICES:
 
 """
 
-import rospy
+import rclpy
+from rclpy.node import Node
+
 from geometry_msgs.msg import Twist, Vector3
 from random import uniform
 from crazy_turtle.srv import Switch, SwitchResponse
@@ -32,10 +33,12 @@ def turtle_twist(xdot, omega):
     return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
                   angular = Vector3(x = 0, y = 0, z = omega))
 
-class Mover:
+class Mover(Node):
     """ Publishes movement geometry_msgs/Twist commands at a fixed rate 
     """
+
     def __init__(self):
+        super().__init__("mover")
         self.nsteps = 0
         self.direction = 1
         self.velocity = rospy.get_param("~velocity")
@@ -43,7 +46,7 @@ class Mover:
         self.switch = rospy.Service("switch", Switch, self.switch_callback)
         self.kill = rospy.ServiceProxy("kill", Kill)
         self.spawn = rospy.ServiceProxy("spawn", Spawn)
-        self.tmr = rospy.Timer(rospy.Duration(0.008333), self.timer_callback)
+        self.timer = self.create_timer(0.008333, self.timer_callback)
 
 
     def switch_callback(self, pose):
@@ -66,7 +69,7 @@ class Mover:
         self.spawn(x = newx, y = newy, theta = pose.mixer.theta, name = "turtle1")
         return SwitchResponse(x = newx, y = newy)
 
-    def timer_callback(self, event):
+    def timer_callback(self):
         """ Handle the timer callback.
 
         Args:
@@ -81,14 +84,12 @@ class Mover:
 
         self.pub.publish(twist)
 
-def main():
+def main(args=None):
     """ The main() function. """
-    rospy.init_node('mover')
+    rclpy.init(args=args)
     mymove = Mover()
-    rospy.spin()
+    rclpy.spin(mymove)
+    rclpy.shutdown()
 
 if __name__ == '__main__':
-    try:
-        main()
-    except rospy.ROSInterruptException:
-        pass
+    main()
