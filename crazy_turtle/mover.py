@@ -1,7 +1,7 @@
 # Copy this file into your homework repository and fill in the ${?} blanks in the document strings
 """
 Publishes twist that will move a robot back and forth in the ${?} direction
-while randomly providing a <linear|angular> velocity about the ${?}-axis.
+while randomly providing a ${?}[fill in previous ${?} with either linear or angular] velocity about the ${?}-axis.
 
 PUBLISHERS:
   + ${topic_name} (${message_type}) ~ the velocity of an erratic turtle path
@@ -34,7 +34,7 @@ def turtle_twist(xdot, omega):
                   angular = Vector3(x = 0, y = 0, z = omega))
 
 class Mover(Node):
-    """ Publishes movement geometry_msgs/Twist commands at a fixed rate 
+    """ Publishes movement geometry_msgs/Twist commands at a fixed rate
     """
 
     def __init__(self):
@@ -42,27 +42,30 @@ class Mover(Node):
         self.nsteps = 0
         self.direction = 1
         self.velocity = rospy.get_param("~velocity")
-        self.pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
-        self.switch = rospy.Service("switch", Switch, self.switch_callback)
+        self.pub = self.create_publisher("cmd_vel", Twist, queue_size = 10)
+        self.switch = self.create_service(Switch, "switch", self.switch_callback)
         self.kill = rospy.ServiceProxy("kill", Kill)
         self.spawn = rospy.ServiceProxy("spawn", Spawn)
         self.timer = self.create_timer(0.008333, self.timer_callback)
 
 
-    def switch_callback(self, pose):
+    def switch_callback(self, request, response):
         """ Callback function for the ${?} service
-        
+
         Kills turtle1 and respawns it an a new location
 
          Args:
-          pose (SwitchRequest): the mixer field contains
+          request (SwitchRequest): the mixer field contains
              x, y, linear and angular velocity components
              that are used to determine the new turtle location
+
+          response (SwitchResponse): the response object
 
         Returns:
            A SwitchResponse, containing the new x and y position
         """
         self.kill("turtle1")
+
         # The new position of the turtle is intentionally scrambled from a weird message
         newx = pose.mixer.x * pose.mixer.angular_velocity
         newy = pose.mixer.y * pose.mixer.linear_velocity
@@ -70,10 +73,7 @@ class Mover(Node):
         return SwitchResponse(x = newx, y = newy)
 
     def timer_callback(self):
-        """ Handle the timer callback.
-
-        Args:
-          event (TimerEvent): This timer doesn't use any of the event info.
+        """ Hurtle the turtle
         """
         twist = turtle_twist(self.direction * self.velocity, uniform(-20, 20))
 
