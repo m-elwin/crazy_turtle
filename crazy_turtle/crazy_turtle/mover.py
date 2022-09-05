@@ -14,16 +14,14 @@ PARAMETERS:
 
 """
 
+from enum import Enum, auto
+from crazy_turtle_interfaces.srv import Switch
+from geometry_msgs.msg import Twist, Vector3
+from math import pi
+from random import uniform
 import rclpy
 from rclpy.node import Node
-
-from geometry_msgs.msg import Twist, Vector3
-from random import uniform
-from crazy_turtle_interfaces.srv import Switch
-from turtlesim.srv import Spawn
-from turtlesim.srv import Kill
-
-from enum import Enum, auto
+from turtlesim.srv import Spawn, Kill
 
 class State(Enum):
     """ Current state of the system.
@@ -85,9 +83,10 @@ class Mover(Node):
         Returns:
            A SwitchResponse, containing the new x and y position
         """
+        self.get_logger().info("Killing turtle1")
         self.kill_future = self.kill.call_async(Kill.Request(name="turtle1"))
 
-        self.state == State.KILLING
+        self.state = State.KILLING
 
         # The new position of the turtle is intentionally scrambled from a weird message
         self.newx = request.mixer.y + request.mixer.angular_velocity
@@ -112,14 +111,16 @@ class Mover(Node):
             self.pub.publish(twist)
 
         elif self.state == State.KILLING:
-            if self.kill_future.done:
-                self.get_logger().info("Killing Complete")
-                self.spawn_future = self.spawn(self.spawn.Request(x = newx, y = newy, theta = uniform(-pi, pi), name = "turtle1"))
+            if self.kill_future.done():
+                self.get_logger().info("turtle1 is dead :(")
+                self.get_logger().info("respawning turtle1")
+                self.spawn_future = self.spawn.call_async(Spawn.Request(x = self.newx, y = self.newy, theta = uniform(-pi, pi), name = "turtle1"))
                 self.state = State.SPAWNING
 
         elif self.state == State.SPAWNING:
-            if self.spawn_future.done:
+            if self.spawn_future.done():
                 self.state = State.HURTLING
+                self.get_logger().info("turtle1 lives!")
 
         else:
             raise RuntimeException("Invalid State")
