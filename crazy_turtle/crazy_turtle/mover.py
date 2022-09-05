@@ -4,10 +4,13 @@ Publishes twist that will move a robot back and forth in the ${?} direction
 while randomly providing a ${?}[fill in previous ${?} with either linear or angular] velocity about the ${?}-axis.
 
 PUBLISHERS:
-  + ${topic_name} (${message_type}) ~ the velocity of an erratic turtle path
+  + ${topic_name} (${message_type}) - The velocity of an erratic turtle path
 
 SERVICES:
-  + ${topic_name} (${service_type}) ~ position of the new turtle
+  + ${topic_name} (${service_type}) - Position of the new turtle
+
+PARAMETERS:
+  + ${param_name} (${param_type}) - Velocity driving the robot
 
 """
 
@@ -19,6 +22,16 @@ from random import uniform
 from crazy_turtle_interfaces.srv import Switch
 from turtlesim.srv import Spawn
 from turtlesim.srv import Kill
+
+from enum import Enum, auto
+
+class State(Enum):
+    """ Current state of the system.
+        Determines what the main timer function should be doing on each iteration
+    """
+    KILLING = auto(),
+    SPAWNING = auto(),
+    HURTLING = auto()
 
 def turtle_twist(xdot, omega):
     """ Create a twist suitable for a turtle
@@ -39,15 +52,22 @@ class Mover(Node):
 
     def __init__(self):
         super().__init__("mover")
-        self.nsteps = 0
-        self.direction = 1
-        self.velocity = rospy.get_param("~velocity")
-        self.pub = self.create_publisher("cmd_vel", Twist, queue_size = 10)
-        self.switch = self.create_service(Switch, "switch", self.switch_callback)
-        self.kill = rospy.ServiceProxy("kill", Kill)
-        self.spawn = rospy.ServiceProxy("spawn", Spawn)
-        self.timer = self.create_timer(0.008333, self.timer_callback)
+        self.declare_parameter("velocity")
 
+        self.nsteps    = 0
+        self.direction = 1
+        self.velocity  = self.get_parameter("velocity").get_parameter_value().double_value
+        self.pub       = self.create_publisher("cmd_vel", Twist, queue_size = 10)
+        self.switch    = self.create_service(Switch, "switch", self.switch_callback)
+        self.kill      = self.create_client(Kill, "kill")
+        self.spawn     = self.create_client(Spawn,"spawn")
+        self.timer     = self.create_timer(0.008333, self.timer_callback)
+
+        if not self.kill_cli.wait_for_service(timeout_sec=1.0):
+            raise RuntimeError('Timeout waiting for "kill" service to become available')
+
+        if not self.spawn_cli.wait_for_service(timeout_sec=1.0):
+            raise RuntimeError('Timeout waiting for "spawn" service to become available')
 
     def switch_callback(self, request, response):
         """ Callback function for the ${?} service
@@ -64,25 +84,43 @@ class Mover(Node):
         Returns:
            A SwitchResponse, containing the new x and y position
         """
-        self.kill("turtle1")
+        self.kill_future = self.kill.call_async(self.kill.Request(name="turtle1"))
+
+        self.state == KILLING
 
         # The new position of the turtle is intentionally scrambled from a weird message
-        newx = pose.mixer.x * pose.mixer.angular_velocity
-        newy = pose.mixer.y * pose.mixer.linear_velocity
-        self.spawn(x = newx, y = newy, theta = pose.mixer.theta, name = "turtle1")
-        return SwitchResponse(x = newx, y = newy)
+        self.newx = request.mixer.y + request.mixer.angular_velocity
+        self.newy = request.mixer.x * request.mixer.linear_velocity
+
+        response.x = newx
+        response.y = newy
+
+        return response
 
     def timer_callback(self):
         """ Hurtle the turtle
         """
-        twist = turtle_twist(self.direction * self.velocity, uniform(-20, 20))
+        if self.state == HURTLING:
+            twist = turtle_twist(self.direction * self.velocity, uniform(-20, 20))
 
-        self.nsteps += 1
-        if self.nsteps > 200:
-            self.nsteps = 0
-            self.direction *= -1
+            self.nsteps += 1
+            if self.nsteps > 200:
+                self.nsteps = 0
+                self.direction *= -1
 
-        self.pub.publish(twist)
+            self.pub.publish(twist)
+
+        elif self.state == KILLING:
+            if self.kill_future.done:
+                self.spawn_future = self.spawn(self.spawn.Request(x = newx, y = newy, theta = uniform(-pi, pi), name = "turtle1"))
+                self.state = SPAWNING
+
+        elif self.state == SPAWNING:
+            if self.spawn_future.done:
+                self.state = HURTLING
+
+        else:
+            except RuntimeException("Invalid State")
 
 def main(args=None):
     """ The main() function. """
