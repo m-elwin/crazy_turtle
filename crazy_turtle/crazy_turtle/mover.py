@@ -16,8 +16,8 @@ from rclpy.node import Node
 
 from geometry_msgs.msg import Twist, Vector3
 from random import uniform
-from crazy_turtle.srv import Switch, SwitchResponse
-from turtlesim.srv import Spawn, SpawnRequest
+from crazy_turtle_interfaces.srv import Switch
+from turtlesim.srv import Spawn
 from turtlesim.srv import Kill
 
 def turtle_twist(xdot, omega):
