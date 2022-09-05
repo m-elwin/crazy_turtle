@@ -43,8 +43,8 @@ def turtle_twist(xdot, omega):
         Returns:
            Twist - a 2D twist object corresponding to linear/angular velocity
     """
-    return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
-                  angular = Vector3(x = 0, y = 0, z = omega))
+    return Twist(linear = Vector3(x = xdot, y = 0.0, z = 0.0),
+                  angular = Vector3(x = 0.0, y = 0.0, z = omega))
 
 class Mover(Node):
     """ Publishes movement geometry_msgs/Twist commands at a fixed rate
@@ -85,16 +85,16 @@ class Mover(Node):
         Returns:
            A SwitchResponse, containing the new x and y position
         """
-        self.kill_future = self.kill.call_async(self.kill.Request(name="turtle1"))
+        self.kill_future = self.kill.call_async(Kill.Request(name="turtle1"))
 
-        self.state == KILLING
+        self.state == State.KILLING
 
         # The new position of the turtle is intentionally scrambled from a weird message
         self.newx = request.mixer.y + request.mixer.angular_velocity
         self.newy = request.mixer.x * request.mixer.linear_velocity
 
-        response.x = newx
-        response.y = newy
+        response.x = self.newx
+        response.y = self.newy
 
         return response
 
@@ -102,7 +102,7 @@ class Mover(Node):
         """ Hurtle the turtle
         """
         if self.state == State.HURTLING:
-            twist = turtle_twist(self.direction * self.velocity, uniform(-20, 20))
+            twist = turtle_twist(self.direction * self.velocity, uniform(-20.0, 20.0))
 
             self.nsteps += 1
             if self.nsteps > 200:
@@ -113,6 +113,7 @@ class Mover(Node):
 
         elif self.state == State.KILLING:
             if self.kill_future.done:
+                self.get_logger().info("Killing Complete")
                 self.spawn_future = self.spawn(self.spawn.Request(x = newx, y = newy, theta = uniform(-pi, pi), name = "turtle1"))
                 self.state = State.SPAWNING
 
