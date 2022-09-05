@@ -52,21 +52,22 @@ class Mover(Node):
 
     def __init__(self):
         super().__init__("mover")
-        self.declare_parameter("velocity")
+        self.state = State.HURTLING
 
+        self.declare_parameter("velocity", 1.0)
         self.nsteps    = 0
         self.direction = 1
         self.velocity  = self.get_parameter("velocity").get_parameter_value().double_value
-        self.pub       = self.create_publisher("cmd_vel", Twist, queue_size = 10)
+        self.pub       = self.create_publisher(Twist, "cmd_vel", 10)
         self.switch    = self.create_service(Switch, "switch", self.switch_callback)
         self.kill      = self.create_client(Kill, "kill")
         self.spawn     = self.create_client(Spawn,"spawn")
         self.timer     = self.create_timer(0.008333, self.timer_callback)
 
-        if not self.kill_cli.wait_for_service(timeout_sec=1.0):
+        if not self.kill.wait_for_service(timeout_sec=1.0):
             raise RuntimeError('Timeout waiting for "kill" service to become available')
 
-        if not self.spawn_cli.wait_for_service(timeout_sec=1.0):
+        if not self.spawn.wait_for_service(timeout_sec=1.0):
             raise RuntimeError('Timeout waiting for "spawn" service to become available')
 
     def switch_callback(self, request, response):
@@ -100,7 +101,7 @@ class Mover(Node):
     def timer_callback(self):
         """ Hurtle the turtle
         """
-        if self.state == HURTLING:
+        if self.state == State.HURTLING:
             twist = turtle_twist(self.direction * self.velocity, uniform(-20, 20))
 
             self.nsteps += 1
@@ -110,17 +111,17 @@ class Mover(Node):
 
             self.pub.publish(twist)
 
-        elif self.state == KILLING:
+        elif self.state == State.KILLING:
             if self.kill_future.done:
                 self.spawn_future = self.spawn(self.spawn.Request(x = newx, y = newy, theta = uniform(-pi, pi), name = "turtle1"))
-                self.state = SPAWNING
+                self.state = State.SPAWNING
 
-        elif self.state == SPAWNING:
+        elif self.state == State.SPAWNING:
             if self.spawn_future.done:
-                self.state = HURTLING
+                self.state = State.HURTLING
 
         else:
-            except RuntimeException("Invalid State")
+            raise RuntimeException("Invalid State")
 
 def main(args=None):
     """ The main() function. """
