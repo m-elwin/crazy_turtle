@@ -22,6 +22,8 @@ from random import uniform
 import rclpy
 from rclpy.node import Node
 from turtlesim.srv import Spawn, Kill
+from rcl_interfaces.msg import ParameterDescriptor
+
 
 class State(Enum):
     """ Current state of the system.
@@ -52,7 +54,8 @@ class Mover(Node):
         super().__init__("mover")
         self.state = State.HURTLING
 
-        self.declare_parameter("velocity", 1.0)
+        self.declare_parameter("velocity", 1.0,
+                               ParameterDescriptor(description="The velocity of the turtle"))
         self.nsteps    = 0
         self.direction = 1
         self.velocity  = self.get_parameter("velocity").get_parameter_value().double_value
