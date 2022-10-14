@@ -7,8 +7,8 @@ Unless otherwise specified, list the command and all arguments that you passed t
 
 ## Repository Configuration
 1. The `crazy_turtle` git repository consists of the ROS 2 packages ${pkg_name1} and ${pkg_name2}
-2. The package ${pkg_name1} is a ${build type of package} package because ${when/why would you use this type of package}
-2. The package ${pkg_name2} is a ${build type of package} package because ${when/why would you use this type of package}
+2. The package ${pkg_name1} is a ${build type of package} package.
+2. The package ${pkg_name2} is a ${build type of package} package.
 
 
 ## Setup Instructions
