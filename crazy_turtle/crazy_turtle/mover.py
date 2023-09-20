@@ -1,7 +1,7 @@
 # Copy this file into your homework repository and fill in the ${?} blanks in the document strings
 """
 Publishes twist that will move a robot back and forth in the ${?} direction
-while randomly providing a ${?}[fill in previous ${?} with either linear or angular] velocity about the ${?}-axis.
+while randomly providing an angular velocity about the ${?}-axis.
 
 PUBLISHERS:
   + ${topic_name} (${message_type}) - The velocity of an erratic turtle path
