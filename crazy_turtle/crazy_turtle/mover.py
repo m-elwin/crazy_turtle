@@ -56,8 +56,11 @@ class Mover(Node):
 
         self.declare_parameter("velocity", 1.0,
                                ParameterDescriptor(description="The velocity of the turtle"))
+        self.kill_future = 0
         self.nsteps    = 0
         self.direction = 1
+        self.newx      = 0
+        self.newy      = 0
         self.velocity  = self.get_parameter("velocity").get_parameter_value().double_value
         self.pub       = self.create_publisher(Twist, "cmd_vel", 10)
         self.switch    = self.create_service(Switch, "switch", self.switch_callback)
