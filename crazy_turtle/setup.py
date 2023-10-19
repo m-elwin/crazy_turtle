@@ -15,8 +15,8 @@ setup(
     zip_safe=True,
     maintainer='elwin',
     maintainer_email='elwin@northwestern.edu',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='Drive a turtle on a crazy path',
+    license='MIT',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
