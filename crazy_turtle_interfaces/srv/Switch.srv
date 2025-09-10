@@ -1,4 +1,5 @@
-turtlesim/Pose mixer # use a strange formula to set the new location of the turtle
+# use a strange formula to set the new location of the turtle
+turtlesim_msgs/Pose mixer
 ---
 float64 x # the new x position of the new turtle
-float64 y # the new y position of the new 
+float64 y # the new y position of the new

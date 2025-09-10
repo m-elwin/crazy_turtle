@@ -12,12 +12,12 @@ find_package(ament_cmake REQUIRED)
 # find_package(<dependency> REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
-find_package(turtlesim REQUIRED)
+find_package(turtlesim_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/Switch.srv"
   DEPENDENCIES
-  turtlesim
+  turtlesim_msgs
   )
 
 if(BUILD_TESTING)
