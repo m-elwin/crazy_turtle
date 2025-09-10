@@ -95,8 +95,8 @@ class Mover(Node):
         self.state = State.KILLING
 
         # The new position of the turtle is intentionally scrambled from a weird message
-        self.newx = request.mixer.y + request.mixer.angular_velocity
-        self.newy = request.mixer.x * request.mixer.linear_velocity
+        self.newx = request.mixer.y + 0.5*request.mixer.angular_velocity
+        self.newy = 0.5*request.mixer.x*request.mixer.linear_velocity
 
         response.x = self.newx
         response.y = self.newy
@@ -119,7 +119,7 @@ class Mover(Node):
         elif self.state == State.KILLING:
             if self.kill_future.done():
                 self.get_logger().info("turtle1 is dead :(")
-                self.get_logger().info("respawning turtle1")
+                self.get_logger().info("long live turtle1!")
                 self.spawn_future = self.spawn.call_async(Spawn.Request(x = self.newx, y = self.newy, theta = uniform(-pi, pi), name = "turtle1"))
                 self.state = State.SPAWNING
 

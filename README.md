@@ -28,12 +28,12 @@ If the nodes launched from the `launchfile` are not running, you will get incorr
 5. Use the ROS command `${command and args}` to list all the nodes that are running.
    The output of the command looks like
    ```
-   ${list nodes here}
+   ${list each node, 1 per line.}
    ```
 6. Use the ROS command `${command and args}` to list the topics
    The output of the command looks like
    ```
-   ${list topics here}
+   ${list each topic, 1 per line}
    ```
 
 7. Use the ROS command `${command and args}` to verify that the frequency of
@@ -42,14 +42,14 @@ If the nodes launched from the `launchfile` are not running, you will get incorr
 8. Use the ROS command `${command and args}` to list the services.
    The output of the command looks like
    ```
-   ${list services here}
+   ${list each service, 1 per line}
    ```
 
 9. Use the ROS command `${command and args}` to determine the type of the `/switch` service, which is `${service type}`.
 
 10. Use the ROS command `${command and args}` to list the parameters of all running nodes
     ```
-    ${list parameters here}
+    ${list each parameter here, 1 per line}
     ```
 
 11. Use the ROS command `${command and args}` to get information about the `/mover` `velocity` parameter, including its type, description, and constraints
@@ -66,25 +66,28 @@ If the nodes launched from the `launchfile` are not running, you will get incorr
 1. Use the ROS command `${command and args}` to list the interface types defined by `crazy_turtle_interfaces`
    The output of the command looks like
    ```
-   ${list service types here}
+   ${list service types here, 1 per line}
    ```
 2. Use the ROS command `${command and args}` to list the executables included with the `crazy_turtle` package
    The output of the command looks like
    ```
-   ${list executables here}
+   ${list executables here, 1 per line}
    ```
 
 ## Live Interaction
 1. Use the command `${command and args here}` to retrieve the value of the `/mover velocity` parameter, which is `${value here}`.
-2. The ROS command to call the `/switch` service, and it's output is listed below:
+2. The ROS command to call the `/switch` service is
     ```
-    ${enter the command and its output here. Call with x=1.0, y=2.0, theta=0.0, angular_velocity=3.0, linear_velocity=4.0}
+    ${enter the command to clal the service with with x=1.3, y=2.1, theta=0.1, angular_velocity=3.1, linear_velocity=4.0}
     ```
-3. The `switch` service performs the following actions (in sequence):
-    1. It `${what does it do? kills | spawns | resets}` the current turtle
-    2. It then respawns a new turtle at `${location as a function of the `/switch` service parameters}`
-4. What happens to the turtle's motion if you use `${command and args here}` to change `/mover velocity` to 10? `${faster | slower | same}`
-5. Use the Linux command `${command and args}` to kill the `/mover` node.
-6. Use the ROS command `${command and args}` to start the `/mover` node with a velocity of 10. 
-    - Be sure to remap `cmd_vel` to `/turtle1/cmd_vel`.
-7. What happened to the turtle's velocity after relaunching `mover`? `${faster | slower | same}`
+3. The return value of the service is (to two decimal places): `x = ${x value} y = ${y value}`.
+
+4. The mover node logged the following information in response to the service call:
+   ```
+   ${enter each logged message, 1 per line}
+   ```
+5. What happens to the turtle's motion if you use `${command and args here}` to change `/mover velocity` to 12 while the launchfile is running? `${faster | slower | same}`
+6. Use the Linux command `${command and args}` to kill the `/mover` node.
+7. Use the ROS command `${command and args}` to start the `/mover` node with a velocity of 12.
+    - HINT: Be sure to remap `cmd_vel` to `/turtle1/cmd_vel`.
+8. What happened to the turtle's velocity after relaunching `mover`? `${Answer faster OR slower OR same}`

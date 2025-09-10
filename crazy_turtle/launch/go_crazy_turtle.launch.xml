@@ -1,7 +1,8 @@
 <launch>
-   <node pkg="turtlesim" exec="turtlesim_node" name="roving_turtle" />
+  <node pkg="turtlesim" exec="turtlesim_node" name="roving_turtle"
+        ros_args="--log-level error"/>
    <node pkg="crazy_turtle" exec="mover" name="mover">
-        <param name="velocity" value="4.5" />
+     <param name="velocity" value="4.5" />
 	<remap from="cmd_vel" to="turtle1/cmd_vel" />
    </node>
 </launch>
