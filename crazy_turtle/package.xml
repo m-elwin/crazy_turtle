@@ -9,7 +9,9 @@
 
   <exec_depend>ros2launch</exec_depend>
   <exec_depend>crazy_turtle_interfaces</exec_depend>
-  
+  <exec_depend>turtlesim</exec_depend>
+  <exec_depend>turtlesim_msgs</exec_depend>
+
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>

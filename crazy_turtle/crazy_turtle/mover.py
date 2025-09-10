@@ -21,7 +21,7 @@ from math import pi
 from random import uniform
 import rclpy
 from rclpy.node import Node
-from turtlesim.srv import Spawn, Kill
+from turtlesim_msgs.srv import Spawn, Kill
 from rcl_interfaces.msg import ParameterDescriptor
 
 
