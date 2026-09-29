@@ -17,7 +17,11 @@ setup(
     maintainer_email='elwin@northwestern.edu',
     description='Drive a turtle on a crazy path',
     license='MIT',
-    tests_require=['pytest'],
+    extras_require={
+        'test': [
+            'pytest',
+            ],
+        },
     entry_points={
         'console_scripts': [
             'mover = crazy_turtle.mover:main'
