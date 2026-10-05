@@ -1,0 +1,44 @@
+# numsr_ros2_style: mirrors ament_flake8 + ament_pep257 (ROS 2 lyrical) as run by the
+# test/ files in this repo, which add E203/CNL100 (test/flake8.ini) and D406/D407
+# (test/test_pep257.py) to ament's ignores. Run `ruff format . && ruff check --fix .`
+# Docstrings may be numpy, Google, or reST.
+
+line-length = 99
+src = []  # ament sets no application-import-names: own package sorts as third party
+
+[lint]
+preview = true  # E1/E2/E3 pycodestyle rules are preview-only
+select = ["E", "W", "F", "D", "I", "Q", "A", "C4", "UP005"]  # UP005: flake8-deprecated
+ignore = [
+  "D100", "D101", "D102", "D103", "D104", "D105", "D106", "D107",  # ament's D ignores
+  "D203", "D212", "D404",
+  "D406", "D407",          # numpy-only section rules, ignored by test_pep257.py
+  "E226", "E241", "E242",  # pycodestyle default-ignores
+  "D420", "D421",          # preview, not in pydocstyle
+]
+# fixes ruff calls unsafe that only touch docstrings/whitespace or keep behavior
+extend-safe-fixes = ["D", "C4", "E711", "E731", "F841", "W291", "W293"]
+# Preview's F401 fix turns an unused import in __init__.py into `import x as x`, which
+# ament_flake8 still rejects. Leave those to ament_flake8; the fix is to list them in __all__.
+per-file-ignores = {"__init__.py" = ["F401"]}
+
+# No [lint.pydocstyle] convention: ruff then detects numpy or Google sections per docstring.
+
+[lint.flake8-quotes]
+inline-quotes = "single"
+
+[lint.flake8-builtins]
+strict-checking = true  # A005 on all modules
+
+[lint.isort]  # flake8-import-order google style
+force-sort-within-sections = true
+order-by-type = false
+detect-same-package = false
+relative-imports-order = "closest-to-furthest"
+force-single-line = true  # keeps per-line `# noqa` visible to flake8
+
+[format]
+quote-style = "single"
+
+# ament can still fail on an unused import in __init__.py (use __all__), and on long
+# lines `ruff format` cannot split (ruff reports these as E501).
